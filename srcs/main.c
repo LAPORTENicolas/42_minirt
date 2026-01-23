@@ -19,7 +19,7 @@ int	main(int ac, char **av)
 	t_env	env;
 
 	if (ac != 2)
-		return (printf("Error: need scene un param"), 0);
+		return (printf("Error: need scene un param\n"), 0);
 	if (init_env(&env, av[1]))
 		return (printf("Error: bad file\n"), 0);
 	if (init_win(&env, WIDTH, HEIGHT))

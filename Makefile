@@ -63,7 +63,7 @@ DEPS		:= $(patsubst $(SRC_PATH)%,$(DEP_DIR)%, $(SRCS:.c=.d))
 CC			:= cc
 CFLAGS		:= -Wall -Wextra -Werror -MMD -g
 LDLIBS		:= -L./lib/mlx/ -lmlx_Linux -lm -lX11 -lXext -L./lib/libft -lft -L./lib/gnl -lgnl
-TARGET		:= MiniRT
+TARGET		:= miniRT
 
 all: gnl mlx libft ${TARGET}
 
