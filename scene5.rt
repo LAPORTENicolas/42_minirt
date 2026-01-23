@@ -1,0 +1,9 @@
+# COMMENTAIRE
+#
+#
+te 1. .1 text earth.xpm earth_normalmap.xpm
+#L 1,0,-7 .3 255,255,255
+L 1,0,7 .3 255,255,255
+A 0.2 255,255,255
+C 0,1.5,-7 .0,0.,1 45
+sp 0,2,-3 .8 45,15,25 text

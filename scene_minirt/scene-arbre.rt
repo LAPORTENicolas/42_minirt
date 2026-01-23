@@ -1,0 +1,17 @@
+A 0.4 203,203,255
+C 0,0,15 .0,.,-1. 75
+L 5,10.,20 .6 255,255,255
+L 5,15.,10 .6 255,255,255
+
+
+te .0 .02 onyx nico/g.xpm nico/gn.xpm
+te .0 .02 moon nico/moon.xpm nico/moon_normal.xpm
+te .6 0.9 water nico/water.xpm nico/water_n.xpm
+te .4. .1 sea
+
+pl 0,-1,0 0,1,0 255,255,255 onyx
+pl 0,15,0 0,1,0 25,2,30
+
+pl 0,0,-5 0,.9,.1 25,2,225 water
+sp 4,10,-5 2, 0,0,0 moon
+#47,172,194

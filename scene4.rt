@@ -1,0 +1,10 @@
+# COMMENTAIRE
+#
+# te reflection rougness
+te .0 .0 text ressources/moon.xpm ressources/moon_normal.xpm
+A 0.1 255,255,255
+C 0,0,-15 .0,0.,1 45
+L 1,1.,-10 10 255,255,255
+cy 0,2,4 1.0,0.0,1.0 1 2 20,55,125 
+pl .1,8.1,8 0,1,0 255,255,255 
+pl .1,.1,10. 0,0,-1 255,255,255 
