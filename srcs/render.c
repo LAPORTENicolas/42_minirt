@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:36:18 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/19 14:19:21 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/25 02:46:48 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,22 @@ void	execute_task(t_env *env)
 	}
 }	
 
+void	get_litle_resolution(t_env *env)
+{
+	if (env->litle_resolution)
+	{
+		env->win.width = WIDTH / SCALE;
+		env->win.height = WIDTH / SCALE;
+		env->size = (WIDTH / SCALE) * (HEIGHT / SCALE);
+	}
+	else
+	{
+		env->win.width = WIDTH;
+		env->win.height = WIDTH;
+		env->size = WIDTH * HEIGHT;
+	}
+}
+
 void	render(t_env *env)
 {
 	if (env->win.need_reset)
@@ -74,6 +90,7 @@ void	render(t_env *env)
 		env->win.need_reset = 0;
 		return ;
 	}
+	get_litle_resolution(env);
 	execute_task(env);
 	put_pixel_in_render(env);
 	put_buffer_to_mlx(&env->win, env->win.count);

@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 12:59:50 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 16:10:11 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/25 02:47:21 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,29 @@ void	put_pixel(t_env *env, t_vec3 color, int i)
 	env->win.img_buf[i].z = color.z;
 }
 
+void	put_pixel_in_render2(t_env *env)
+{
+	int	i;
+	int	size;
+	int	x;
+	int	y;
+
+	i = 0;
+	size = WIDTH * HEIGHT;
+	while (i < size)
+	{
+		x = (i % WIDTH) / SCALE;
+		y = (i / WIDTH) / SCALE;
+		env->win.img_buf_render[i].x += \
+		env->win.img_buf[x + (WIDTH / SCALE) * y].x;
+		env->win.img_buf_render[i].y += \
+		env->win.img_buf[x + (WIDTH / SCALE) * y].y;
+		env->win.img_buf_render[i].z += \
+		env->win.img_buf[x + (WIDTH / SCALE) * y].z;
+		i++;
+	}
+}
+
 /**
  * @brief put_img_buf_to_img_render
  *
@@ -44,6 +67,8 @@ void	put_pixel_in_render(t_env *env)
 	int	i;
 	int	size;
 
+	if (env->litle_resolution)
+		return (put_pixel_in_render2(env));
 	i = 0;
 	size = WIDTH * HEIGHT;
 	while (i < size)
@@ -80,7 +105,7 @@ void	put_buffer_to_mlx(t_win *win, int render_amount)
 	int	size;
 
 	i = 0;
-	size = win->height * win->width;
+	size = HEIGHT * WIDTH;
 	while (i < size)
 	{
 		win->buf[i << 2] = clamp_uc(win->img_buf_render[i].z / \

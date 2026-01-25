@@ -6,12 +6,13 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:08:21 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 16:23:01 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/25 02:37:58 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minirt.h"
-#include <stdio.h>
+#include <X11/X.h>
+#include <X11/keysymdef.h>
 
 void	change_screen_mode(t_env *env)
 {
@@ -67,5 +68,10 @@ void	keyboard_hook(int key, t_env *env)
 		env->screen_mode = LIGHT_OBJ;
 	if (env->screen_mode == LIGHT_OBJ)
 		manage_light_pos(key, env);
+	if (key == 99)
+	{
+		env->win.need_reset = 1;
+		env->litle_resolution = !env->litle_resolution;
+	}
 	keyboard_hook_part2(key, env);
 }

@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/23 12:52:42 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/25 02:48:23 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <X11/Xlib.h>
 # include <X11/extensions/XShm.h>
 
-# define WIDTH 400
-# define HEIGHT 400
+# define WIDTH 500
+# define HEIGHT 500
 # define MAX_THREAD 8
 # define EPS 1e-4
 # define ZOOM_STEP 0.5f
@@ -32,6 +32,7 @@
 # define FRAME_TARGET 10
 # define SPECULAR_COEF .2
 # define TWOP 6.28318530718
+# define SCALE 10
 
 typedef enum s_selected_obj
 {
@@ -290,6 +291,7 @@ typedef struct s_env
 	int				mouse_right;
 	int				size;
 	int				reset;
+	int				litle_resolution;
 	t_list			*light_to_move;
 	t_light			*light_to_move2;
 	void			*obj;

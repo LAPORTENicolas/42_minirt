@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:04:51 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/20 06:36:34 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/25 02:32:25 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ int	main(int ac, char **av)
 	if (prepare_parsing(&env, env.file))
 		return ((exit_mlx(&env), 0));
 	env.win.count = 1;
+	env.litle_resolution = 1;
 	mlx_hook(env.win.win, 2, 1L << 0, (void *)&keyboard_hook, &env);
 	mlx_hook(env.win.win, 3, 1L << 0, (void *)&keyboard_release, &env);
 	mlx_mouse_hook(env.win.win, (void *)&mouse_hook, &env);
