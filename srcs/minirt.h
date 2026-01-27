@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/25 02:48:23 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/27 07:34:05 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define FRAME_TARGET 10
 # define SPECULAR_COEF .2
 # define TWOP 6.28318530718
-# define SCALE 10
+# define SCALE 5
 
 typedef enum s_selected_obj
 {
@@ -423,6 +423,7 @@ void		cyl_checkboard_side(t_vec3 uv, t_ray_d *r);
 
 // sphere.c
 t_ray_d		check_all_spheres(t_env *env, t_ray ray, t_sphere *last, int light);
+float		check_sphere_hit(t_ray ray, t_sphere *object, float *t2);
 float		check_sphere_hit(t_ray ray, t_sphere *object, float *t2);
 
 // plane.c

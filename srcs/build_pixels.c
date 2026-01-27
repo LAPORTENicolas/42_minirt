@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:28:12 by jodde             #+#    #+#             */
-/*   Updated: 2026/01/25 02:30:26 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/27 07:33:49 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 #include <float.h>
 #include <math.h>
 #include <stdio.h>
+#include <string.h>
 
 /**
  * @brief check_all_objects
@@ -53,43 +54,23 @@ t_ray_d	check_all_objects(t_env *env, \
 	return (r[0]);
 }
 
-/**
- * @brief get_ray_from_glass
- *
- *	Calcul les rayon refracter et reflect pour chaque canal R,V,B
- *
- * @param t_env *env 
- * @param t_ray *ray 
- * @param t_ray *l_ray 
- * @param t_ray *ray_return 
- */
-t_vec3	get_ray_from_glass(t_env *env, t_ray *ray, \
-		t_ray_d *l_ray, t_ray_d *ray_return)
-{
-	float	dispertion;
-	t_vec3	exit_dir;
-	t_vec3	color;
 
-	dispertion = 0.;
-	exit_dir = refract(ray->dir, l_ray->n, 0.6);
-	ft_memset(&color, 0, sizeof(t_vec3));
-	ray->dir = vec_add(exit_dir, get_random_vec(dispertion));
-	ray_return[0] = get_pixel_color(env, *ray, l_ray->obj);
-	if (ray_return[0].t <= 0 || ray_return[0].t >= 21473840)
-		return (ft_memset(&ray_return[0].color, 0, \
-					sizeof(t_vec3)), color);
-	ray->dir = exit_dir;
-	ray_return[2] = get_pixel_color(env, *ray, l_ray->obj);
-	ray->dir = vec_add(exit_dir, get_random_vec(dispertion));
-	ray_return[4] = get_pixel_color(env, *ray, l_ray->obj);
-	color.x = ray_return[0].color.x * .7;
-	color.y = ray_return[2].color.y * .7;
-	color.z = ray_return[4].color.z * .7;
-	return (color);
+t_vec3	color_beer(t_vec3 color, double t, t_vec3 glass_color)
+{
+	t_vec3	r;
+	t_vec3	color_coef;
+
+	(void)color;
+	color_coef.x = (glass_color.x * 0.003921568627) * .4;
+	color_coef.y = (glass_color.y * 0.003921568627) * .4;
+	color_coef.z = (glass_color.z * 0.003921568627) * .4;
+	r.x = color.x * exp(-color_coef.x * t);
+	r.y = color.y * exp(-color_coef.y * t);
+	r.z = color.z * exp(-color_coef.z * t);
+	return (r);
 }
 
 /**
- * @brief render_glass
  *
  * Gere le rendu des rayons qui touche du verre
  *
@@ -97,31 +78,43 @@ t_vec3	get_ray_from_glass(t_env *env, t_ray *ray, \
  * @param t_ray_d *l_ray 
  * @param t_ray *ray 
  */
-void	render_glass(t_env *env, t_ray_d *l_ray, t_ray *ray)
+t_ray_d	render_glass_one_ray(t_env *env, t_ray_d l_ray, float n1, float n2)
 {
-	t_vec3	enter_dir;
-	t_ray_d	ex[6];
+	t_sphere	*sphere;
+	t_ray		r_tmp;
+	float		t;
+	float		t2;
 
-	ft_memset(&ex, 0, sizeof(t_ray_d) * 6);
-	enter_dir = refract(ray->dir, l_ray->n, 1.6);
-	if (vec_dot(enter_dir, enter_dir) == .0)
-	{
-		ray->origin = l_ray->hp;
-		ray->dir = reflect(ray->dir, l_ray->n, 0.);
-		*l_ray = get_pixel_color(env, *ray, l_ray->obj);
-	}
-	else
-	{
-		if (l_ray->type == PLANE && vec_dot(ray->dir, l_ray->n) > 0)
-			l_ray->n = vec_mul(l_ray->n, -1);
-		ray->origin = l_ray->hp;
-		ex[0].color = get_ray_from_glass(env, ray, l_ray, ex);
-		if (fabs(ex[0].color.x + ex[0].color.y + ex[0].color.z) <= 1.)
-			return (l_ray->glass_flag = 0, \
-	ft_memset(&l_ray->color, 0, sizeof(t_vec3)), (void)(NULL));
-		*l_ray = ex[0];
-		ray->mul = 1.;
-	}
+	sphere = l_ray.obj;
+	r_tmp.origin = l_ray.hp;
+	r_tmp.dir = normalize(refract(normalize(l_ray.ray.dir), normalize(l_ray.n), n1));
+	t = fmax(0.1, check_sphere_hit(r_tmp, sphere, &t2));
+	if (t < t2)
+		t = t2;
+	r_tmp.origin = vec_add(r_tmp.origin, vec_mul(r_tmp.dir, t));
+	l_ray.n = normalize(vec_sub(r_tmp.origin, sphere->pos));
+	r_tmp.dir = normalize(refract(r_tmp.dir,l_ray.n, n2));
+	l_ray = get_pixel_color(env, r_tmp, sphere);
+	return (l_ray);
+}
+
+void	render_glass(t_env *env, t_ray_d *l_ray)
+{
+	t_vec3	final_color;
+	t_ray_d	ray_data;
+
+	ray_data = render_glass_one_ray(env, *l_ray, 0.58, 1.58);
+	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
+	final_color.x = ray_data.color.x;
+	ray_data = render_glass_one_ray(env, *l_ray, 0.62, 1.62);
+	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
+	final_color.z = ray_data.color.z;
+	ray_data = render_glass_one_ray(env, *l_ray, 0.60, 1.60);
+	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
+	final_color.y = ray_data.color.y;
+	*l_ray = ray_data;
+	l_ray->color = final_color;
+	l_ray->glass_flag = 0;
 }
 
 /**
@@ -142,7 +135,7 @@ t_vec3	shoot_ray(t_env *env, t_ray_d *l_ray, t_ray *ray)
 
 	i = 0;
 	return_color = (t_vec3){0., 0., 0.};
-	while (i < 3)
+	while (i < 2)
 	{
 		*l_ray = get_pixel_color(env, *ray, NULL);
 		if (l_ray->t == FLT_MAX)
@@ -153,8 +146,8 @@ t_vec3	shoot_ray(t_env *env, t_ray_d *l_ray, t_ray *ray)
 			ray->mul = .7;
 		if (i == 0 && l_ray->reflection == 1.)
 			ray->mirror = 1;
-		while (l_ray->glass_flag)
-			render_glass(env, l_ray, ray);
+		if (l_ray->glass_flag)
+			render_glass(env, l_ray);
 		return_color = vec_add(return_color, vec_mul(l_ray->color, ray->mul));
 		ray->mul *= ray->reflection;
 		ray->origin = l_ray->hp;

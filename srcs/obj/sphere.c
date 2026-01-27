@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/10 21:08:43 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 15:16:59 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/27 07:08:20 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ void	manage_sphere_texture(t_ray_d *r, t_sphere *s)
  * @param t_sphere *s 
  * @param float t[2] 
  */
+#include <stdio.h>
 void	set_sphere_data(t_ray_d *r, t_ray ray, t_sphere *s, float t[2])
 {
 	float	tmp;
@@ -172,7 +173,7 @@ t_ray_d	check_all_spheres(t_env *env, t_ray ray, t_sphere *last, int light)
 	while (spheres)
 	{
 		s = spheres->content;
-		if (s != last || !(light && s->glass_flag))
+		if (s != last || (light && s->glass_flag))
 		{
 			t[0] = check_sphere_hit(ray, s, &t[1]);
 			if (t[0] < r.t && t[0] != -1)
