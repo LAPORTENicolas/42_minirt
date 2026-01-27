@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:57:04 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/23 11:22:35 by jodde            ###   ########.fr       */
+/*   Updated: 2026/01/27 08:14:57 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,9 @@ int	light_is_hide(t_env *env, t_vec3 origin, \
 	ft_memset(&ray, 0, sizeof(t_ray));
 	ft_memset(&n, 0, sizeof(t_ray_d));
 	ray.origin = vec_add(origin, vec_mul(light_dir, EPS));
-	ray.dir = normalize(vec_sub(light_pos, origin));
+	ray.dir = vec_sub(light_pos, origin);
 	light_dist = vec_length(ray.dir);
+	ray.dir = normalize(ray.dir);
 	n = check_all_objects(env, ray, NULL, 0);
 	if (n.t > EPS && n.t <= light_dist && !n.glass_flag)
 		return (1);
