@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:28:12 by jodde             #+#    #+#             */
-/*   Updated: 2026/01/28 06:47:19 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 06:57:26 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_vec3	shoot_ray(t_env *env, t_ray_d *l_ray, t_ray *ray)
 
 	i = 0;
 	return_color = (t_vec3){0., 0., 0.};
-	while (i < 2)
+	while (i < BOUNCES)
 	{
 		*l_ray = get_pixel_color(env, *ray, NULL);
 		if (l_ray->t == FLT_MAX)

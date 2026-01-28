@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 06:50:10 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 06:57:11 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@
 # define SPECULAR_COEF .2
 # define TWOP 6.28318530718
 # define SCALE 5
+# define BOUNCES 3
 
 typedef enum s_selected_obj
 {
