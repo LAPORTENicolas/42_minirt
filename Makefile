@@ -56,6 +56,7 @@ SRCS		:= ./srcs/bmp_convert.c \
 ./srcs/parsing/create_utils.c \
 ./srcs/parsing/min_obj.c \
 ./srcs/parsing/parsing.c \
+./srcs/glass.c \
 ./srcs/parsing/vector_parsing.c 
 OBJS		:= $(patsubst $(SRC_PATH)%,$(OBJ_DIR)%, $(SRCS:.c=.o))
 DEPS		:= $(patsubst $(SRC_PATH)%,$(DEP_DIR)%, $(SRCS:.c=.d))

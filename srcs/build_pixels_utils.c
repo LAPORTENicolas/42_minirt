@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/15 16:06:05 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/27 04:52:31 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 06:47:54 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ t_vec3	reflect(t_vec3 I, t_vec3 N, float rougness)
  * @param float eta
  * @return t_vec3 r
  */
-#include <stdio.h>
 t_vec3	refract(t_vec3 I, t_vec3 N, float eta)
 {
 	float	dot_ni;
@@ -73,7 +72,7 @@ t_vec3	refract(t_vec3 I, t_vec3 N, float eta)
 	dot_ni = fabs(vec_dot(N, I));
 	k = 1. - eta * eta * (1. - dot_ni * dot_ni);
 	if (k < 0)
-		return (t_vec3){0,0,0};
+		return ((t_vec3){0, 0, 0});
 	sqrt_k = sqrtf(k);
 	dot_ni = eta * dot_ni + sqrt_k;
 	return ((t_vec3){

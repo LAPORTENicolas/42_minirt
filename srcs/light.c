@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:57:04 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/27 08:14:57 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 04:13:28 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,9 +44,11 @@ float	get_specular_light(t_vec3 light_dir, t_ray_d ray)
 	v_reflect = normalize(r);
 	dot = v_reflect.x * ray.ray.dir.x + \
 	v_reflect.y * ray.ray.dir.y + v_reflect.z * ray.ray.dir.z;
-	if (dot < 0.)
-		return (fabs(powf(dot, 7.)) * SPECULAR_COEF);
-	return (0.);
+	if (dot > 0.)
+		return (0.);
+	if (ray.glass_flag)
+		return (fabs(powf(dot, 2.)) * .5);
+	return (fabs(powf(dot, 7.)) * SPECULAR_COEF);
 }
 
 /**
@@ -75,7 +77,7 @@ int	light_is_hide(t_env *env, t_vec3 origin, \
 	ray.dir = vec_sub(light_pos, origin);
 	light_dist = vec_length(ray.dir);
 	ray.dir = normalize(ray.dir);
-	n = check_all_objects(env, ray, NULL, 0);
+	n = check_all_objects(env, ray, NULL, 2);
 	if (n.t > EPS && n.t <= light_dist && !n.glass_flag)
 		return (1);
 	return (0);

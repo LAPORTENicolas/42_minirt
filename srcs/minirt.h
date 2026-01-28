@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/27 07:34:05 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 06:50:10 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -524,4 +524,10 @@ t_vec3		palette2(float t);
 t_vec3		palette3(float t);
 t_vec3		palette4(float t);
 t_vec3		palette5(float t);
+
+// glass.c
+void		render_glass(t_env *env, t_ray_d *l_ray);
+t_ray_d		render_glass_ray(t_env *env, t_ray_d l_ray, \
+		float n[2], float *last_t);
+
 #endif // minirt.h

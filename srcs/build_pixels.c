@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:28:12 by jodde             #+#    #+#             */
-/*   Updated: 2026/01/27 07:33:49 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 06:47:19 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,6 @@
 #include <limits.h>
 #include <pthread.h>
 #include <float.h>
-#include <math.h>
-#include <stdio.h>
 #include <string.h>
 
 /**
@@ -54,80 +52,6 @@ t_ray_d	check_all_objects(t_env *env, \
 	return (r[0]);
 }
 
-
-t_vec3	color_beer(t_vec3 color, double t, t_vec3 glass_color)
-{
-	t_vec3	r;
-	t_vec3	color_coef;
-
-	(void)color;
-	color_coef.x = (glass_color.x * 0.003921568627) * .4;
-	color_coef.y = (glass_color.y * 0.003921568627) * .4;
-	color_coef.z = (glass_color.z * 0.003921568627) * .4;
-	r.x = color.x * exp(-color_coef.x * t);
-	r.y = color.y * exp(-color_coef.y * t);
-	r.z = color.z * exp(-color_coef.z * t);
-	return (r);
-}
-
-/**
- *
- * Gere le rendu des rayons qui touche du verre
- *
- * @param t_env *env 1
- * @param t_ray_d *l_ray 
- * @param t_ray *ray 
- */
-t_ray_d	render_glass_one_ray(t_env *env, t_ray_d l_ray, float n1, float n2)
-{
-	t_sphere	*sphere;
-	t_ray		r_tmp;
-	float		t;
-	float		t2;
-
-	sphere = l_ray.obj;
-	r_tmp.origin = l_ray.hp;
-	r_tmp.dir = normalize(refract(normalize(l_ray.ray.dir), normalize(l_ray.n), n1));
-	t = fmax(0.1, check_sphere_hit(r_tmp, sphere, &t2));
-	if (t < t2)
-		t = t2;
-	r_tmp.origin = vec_add(r_tmp.origin, vec_mul(r_tmp.dir, t));
-	l_ray.n = normalize(vec_sub(r_tmp.origin, sphere->pos));
-	r_tmp.dir = normalize(refract(r_tmp.dir,l_ray.n, n2));
-	l_ray = get_pixel_color(env, r_tmp, sphere);
-	return (l_ray);
-}
-
-void	render_glass(t_env *env, t_ray_d *l_ray)
-{
-	t_vec3	final_color;
-	t_ray_d	ray_data;
-
-	ray_data = render_glass_one_ray(env, *l_ray, 0.58, 1.58);
-	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
-	final_color.x = ray_data.color.x;
-	ray_data = render_glass_one_ray(env, *l_ray, 0.62, 1.62);
-	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
-	final_color.z = ray_data.color.z;
-	ray_data = render_glass_one_ray(env, *l_ray, 0.60, 1.60);
-	ray_data.color = color_beer(ray_data.color, ray_data.t, ((t_sphere *)l_ray->obj)->pos);
-	final_color.y = ray_data.color.y;
-	*l_ray = ray_data;
-	l_ray->color = final_color;
-	l_ray->glass_flag = 0;
-}
-
-/**
- * @brief shoot_ray
- *
- * Tire un rayon avec un nombre defini de rebond
- * puis retourne la couleur final du rayon/pixel
- *
- * @param t_env *env 
- * @param t_ray *l_ray 
- * @param t_ray *ray 
- * @return 
- */
 t_vec3	shoot_ray(t_env *env, t_ray_d *l_ray, t_ray *ray)
 {
 	int		i;
