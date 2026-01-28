@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 16:57:04 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 04:13:28 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 07:37:52 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ int	light_is_hide(t_env *env, t_vec3 origin, \
 	light_dist = vec_length(ray.dir);
 	ray.dir = normalize(ray.dir);
 	n = check_all_objects(env, ray, NULL, 2);
-	if (n.t > EPS && n.t <= light_dist && !n.glass_flag)
+	if (n.t > EPS && n.t <= light_dist && !n.glass_flag && n.t != FLT_MAX)
 		return (1);
 	return (0);
 }
@@ -123,7 +123,7 @@ float	get_light_intensity(t_env *env, \
  * 
  * Retourne la quantite de lumiere sur un point
  *
- * @param t_scene *scene
+ * @param t_scene *scenet_ray_d 
  * @param t_scene *scene
  * @param t_ray_d ray
  * @return t_vec3 final_color

@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 06:31:50 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 06:49:48 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 07:43:45 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ t_ray_d	render_glass_ray(t_env *env, t_ray_d l_ray, \
 	r_tmp.dir = normalize(refract(r_tmp.dir, l_ray.n, n[1]));
 	l_ray.ray.dir = r_tmp.dir;
 	l_ray.ray.origin = r_tmp.origin;
-	l_ray = check_all_objects(env, l_ray.ray, sphere, 0);
+	l_ray = get_pixel_color(env, l_ray.ray, sphere);
 	return (l_ray);
 }
 
@@ -105,8 +105,11 @@ void	render_glass(t_env *env, t_ray_d *l_ray)
 	t_ray_d	ray_data;
 	t_ray_d	ray_reflect;
 	float	dot;
+	t_vec3	light_color;
 
+	(void)light_color;
 	ft_memset(&ray_reflect, 0, sizeof(t_ray_d));
+	light_color = check_all_light(env, &env->scene, *l_ray);
 	ray_reflect.ray.dir = normalize(reflect(l_ray->ray.dir, l_ray->n, .05));
 	ray_reflect.ray.origin = l_ray->hp;
 	ray_data = render_ior(env, l_ray);
@@ -116,6 +119,8 @@ void	render_glass(t_env *env, t_ray_d *l_ray)
 	if (dot < .1)
 		dot = .1;
 	l_ray->color = vec_add(vec_mul(l_ray->color, dot), \
-			vec_mul(ray_reflect.color, 1 - dot));
+		vec_mul(ray_reflect.color, 1 - dot));
+	//l_ray->color = ray_reflect.color;
 	l_ray->glass_flag = 0;
+	l_ray->ray.mul = 1.;
 }

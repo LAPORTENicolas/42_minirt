@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 06:57:11 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/01/28 07:11:19 by nlaporte         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@
 # include <X11/Xlib.h>
 # include <X11/extensions/XShm.h>
 
-# define WIDTH 500
-# define HEIGHT 500
+# define WIDTH 600
+# define HEIGHT 600
 # define MAX_THREAD 8
 # define EPS 1e-4
 # define ZOOM_STEP 0.5f
@@ -29,11 +29,11 @@
 # define PHI 0.523598775597
 # define INT_DIV2 429496731.
 # define EXP_RENDER 0
-# define FRAME_TARGET 10
+# define FRAME_TARGET 100
 # define SPECULAR_COEF .2
 # define TWOP 6.28318530718
-# define SCALE 5
-# define BOUNCES 3
+# define SCALE 4
+# define BOUNCES 2
 
 typedef enum s_selected_obj
 {
