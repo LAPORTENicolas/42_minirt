@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 07:11:19 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/02/04 20:45:27 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "../lib/libft/libft.h"
 # include <X11/Xlib.h>
 # include <X11/extensions/XShm.h>
+# include <pthread.h>
 
 # define WIDTH 600
 # define HEIGHT 600
@@ -210,6 +211,7 @@ typedef struct s_texture
 	int		scale;
 	int		w;
 	int		h;
+	pthread_mutex_t	text_mutex;
 }	t_texture;
 
 typedef struct s_ray_d
@@ -276,6 +278,16 @@ typedef struct s_cam
 	float	pitch;
 }	t_cam;
 
+typedef struct s_task
+{
+	struct s_env	*env;
+	pthread_t 		th_ray;
+	int				start;
+	int				end;
+	int				*count;
+	int				state;
+} t_task;
+
 typedef struct s_env
 {
 	void			*mlx;
@@ -293,6 +305,8 @@ typedef struct s_env
 	int				size;
 	int				reset;
 	int				litle_resolution;
+	int				threads_done;
+	int				nb_threads;
 	t_list			*light_to_move;
 	t_light			*light_to_move2;
 	void			*obj;
@@ -301,6 +315,11 @@ typedef struct s_env
 	t_plane			*backup_plane;
 	t_cylinder		*backup_cylinder;
 	t_cone			*backup_cone;
+	t_task			*threads;
+	pthread_mutex_t	done_mutex;
+	pthread_cond_t	done_cond;
+	pthread_mutex_t	reset_mutex;
+	pthread_cond_t	reset_cond;
 }	t_env;
 
 typedef struct s_img
@@ -320,6 +339,7 @@ typedef struct s_img
 
 // init.c
 int			init_env(t_env *env, char *str);
+int			init_tasks(t_env *env);
 
 // window.c
 int			init_win(t_env *env, int width, int height);
@@ -362,8 +382,13 @@ int			parse_vector_float(char *s, t_vec3 *r, float n[2], int line);
 
 // render.c
 void		render(t_env *env);
+void		execute_thread(t_task *task);
 void		execute_task(t_env *env);
 void		put_screen_mode_info(t_env *env);
+
+// threads.c
+int			create_threads(t_task *threads, int nb_threads, int size);
+void		join_threads(t_env *env);
 
 // conversions.c
 void		coordinate_from_index(t_env *env, int index, float *x, float *y);

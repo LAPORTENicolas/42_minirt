@@ -57,7 +57,63 @@ SRCS		:= ./srcs/bmp_convert.c \
 ./srcs/parsing/min_obj.c \
 ./srcs/parsing/parsing.c \
 ./srcs/glass.c \
-./srcs/parsing/vector_parsing.c 
+./srcs/parsing/vector_parsing.c
+SRCS_BONUS		:= ./srcs/bmp_convert.c \
+./srcs/build_pixels.c \
+./srcs/build_pixels_utils.c \
+./srcs/cam_move.c \
+./srcs/cam_utils.c \
+./srcs/color_palette.c \
+./srcs/conversions.c \
+./srcs/free_utils.c \
+./srcs/generate_ray.c \
+./srcs/init_bonus.c \
+./srcs/keyboard.c \
+./srcs/light.c \
+./srcs/light_move.c \
+./srcs/main_bonus.c \
+./srcs/mouse_hooks.c \
+./srcs/mouse_utils.c \
+./srcs/quat_utils1.c \
+./srcs/quat_utils2.c \
+./srcs/render_bonus.c \
+./srcs/texture_bonus.c \
+./srcs/texture_utils.c \
+./srcs/vec_utils1.c \
+./srcs/vec_utils2.c \
+./srcs/window_bonus.c \
+./srcs/window_utils.c \
+./srcs/obj/cone.c \
+./srcs/obj/cone_checkerboard.c \
+./srcs/obj/cone_data.c \
+./srcs/obj/cone_texture_bonus.c \
+./srcs/obj/cone_utils.c \
+./srcs/obj/cylinder.c \
+./srcs/obj/cylinder_checkboard.c \
+./srcs/obj/cylinder_texture_bonus.c \
+./srcs/obj/cylinder_utils.c \
+./srcs/obj/obj_move.c \
+./srcs/obj/obj_resize.c \
+./srcs/obj/obj_rotate.c \
+./srcs/obj/obj_select.c \
+./srcs/obj/obj_utils.c \
+./srcs/obj/plane.c \
+./srcs/obj/plane_texture_bonus.c \
+./srcs/obj/plane_utils.c \
+./srcs/obj/restore_obj.c \
+./srcs/obj/snapshot.c \
+./srcs/obj/sphere_bonus.c \
+./srcs/parsing/create_obj.c \
+./srcs/parsing/create_texture.c \
+./srcs/parsing/create_utils.c \
+./srcs/parsing/min_obj.c \
+./srcs/parsing/parsing.c \
+./srcs/glass.c \
+./srcs/parsing/vector_parsing.c \
+./srcs/threads_bonus.c 
+ifeq ($(BONUS),1)
+	SRCS := $(SRCS_BONUS)
+endif
 OBJS		:= $(patsubst $(SRC_PATH)%,$(OBJ_DIR)%, $(SRCS:.c=.o))
 DEPS		:= $(patsubst $(SRC_PATH)%,$(DEP_DIR)%, $(SRCS:.c=.d))
 
@@ -86,7 +142,7 @@ libft:
 	make -C ./lib/libft
 
 bonus:
-	@$(MAKE) BONUS=1
+	@$(MAKE) BONUS=1 all
 
 ${TARGET}: ${OBJS} libft mlx
 	@if ${CC} ${OBJS} -o ${TARGET} ${LDLIBS} >/dev/null 2>&1; then \
