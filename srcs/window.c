@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:03:56 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 17:08:13 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 23:30:52 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include "minirt.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+void	reset_img_buf(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	ft_memset(env->win.img_buf_render, 0, \
+			sizeof(t_vec3) * (WIDTH * HEIGHT));
+	while (i < WIDTH * HEIGHT)
+	{
+		env->win.img_buf_render[i].x += 0.0f;
+		env->win.img_buf_render[i].y += 0.0f;
+		env->win.img_buf_render[i].z += 0.0f;
+		i++;
+	}
+}
 
 /**
  * @brief init_img

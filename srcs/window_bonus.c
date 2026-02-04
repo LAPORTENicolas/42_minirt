@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:03:56 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 21:21:49 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 23:31:36 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,22 @@
 #include "minirt.h"
 #include <stdio.h>
 #include <stdlib.h>
+
+void	reset_img_buf(t_env *env)
+{
+	int		i;
+
+	i = 0;
+	ft_memset(env->win.img_buf_render, 0, \
+			sizeof(t_vec3) * (WIDTH * HEIGHT));
+	while (i < WIDTH * HEIGHT)
+	{
+		env->win.img_buf_render[i].x += 0.0f;
+		env->win.img_buf_render[i].y += 0.0f;
+		env->win.img_buf_render[i].z += 0.0f;
+		i++;
+	}
+}
 
 /**
  * @brief init_img
@@ -131,12 +147,19 @@ int	init_win(t_env *env, int width, int height)
  */
 void	exit_mlx(t_env *env)
 {
+	pthread_mutex_lock(&env->stop_mutex);
+	env->stop_render = 1;
+	pthread_mutex_unlock(&env->stop_mutex);
+	pthread_cond_broadcast(&env->reset_cond);
+	pthread_cond_broadcast(&env->done_cond);
+	join_threads(env);
 	if (env->win.img)
 		mlx_destroy_image(env->mlx, env->win.img);
 	if (env->win.win)
 		mlx_destroy_window(env->mlx, env->win.win);
 	if (env->mlx)
 		mlx_destroy_display(env->mlx);
+	free(env->threads);
 	if (env->file)
 		free(env->file);
 	if (env->win.img_buf)
@@ -146,7 +169,5 @@ void	exit_mlx(t_env *env)
 	free_lists(env);
 	if (env->mlx)
 		free(env->mlx);
-	join_threads(env);
-	free(env->threads);
 	exit(0);
 }

@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:36:18 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 06:36:02 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/02/04 23:17:35 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,7 @@ void	render(t_env *env)
 {
 	if (env->win.need_reset)
 	{
-		ft_memset(env->win.img_buf_render, 0, \
-			sizeof(t_vec3) * (WIDTH * HEIGHT));
+		reset_img_buf(env);
 		env->win.count = 1;
 		env->win.need_reset = 0;
 		return ;

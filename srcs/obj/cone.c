@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/09 13:21:05 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 20:33:38 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 22:23:45 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ float	check_cone(t_ray ray, t_cone *co)
 	float	t;
 	float	t_min;
 
-	co->hit_type = -1;
+	co->hit_type = 0;
 	t_min = FLT_MAX;
 	t = hit_cone_side(ray, co);
 	if (t > EPS && t < t_min)

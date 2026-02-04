@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:30:35 by jodde             #+#    #+#             */
-/*   Updated: 2026/01/21 20:35:27 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 22:23:31 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ float	hit_cylinder(t_ray ray, t_cylinder *cyl)
 	float	t_min;
 
 	t_min = FLT_MAX;
-	cyl->hit_type = -1;
+	cyl->hit_type = 0;
 	t = hit_cylinder_side(ray, cyl);
 	if (t > EPS && t < t_min)
 	{

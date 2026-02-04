@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 21:30:13 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 23:25:47 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <X11/extensions/XShm.h>
 # include <pthread.h>
 
-# define WIDTH 600
-# define HEIGHT 600
+# define WIDTH 60
+# define HEIGHT 60
 # define MAX_THREAD 8
 # define EPS 1e-4
 # define ZOOM_STEP 0.5f
@@ -198,20 +198,20 @@ typedef struct s_amb_light
 typedef struct s_texture
 {
 	pthread_mutex_t	text_mutex;
-	void				*mlx;
-	void				*img;
-	char				*buf;
-	void				*img_n;
-	char				*buf_n;
-	char				*name;
-	float				rougness;
-	float				reflection;
-	int					bpp;
-	int					lb;
-	int					endian;
-	int					scale;
-	int					w;
-	int					h;
+	void			*mlx;
+	void			*img;
+	char			*buf;
+	void			*img_n;
+	char			*buf_n;
+	char			*name;
+	float			rougness;
+	float			reflection;
+	int				bpp;
+	int				lb;
+	int				endian;
+	int				scale;
+	int				w;
+	int				h;
 }	t_texture;
 
 typedef struct s_ray_d
@@ -307,6 +307,7 @@ typedef struct s_env
 	int				litle_resolution;
 	int				threads_done;
 	int				nb_threads;
+	int				stop_render;
 	t_list			*light_to_move;
 	t_light			*light_to_move2;
 	void			*obj;
@@ -320,6 +321,7 @@ typedef struct s_env
 	pthread_cond_t	done_cond;
 	pthread_mutex_t	reset_mutex;
 	pthread_cond_t	reset_cond;
+	pthread_mutex_t	stop_mutex;
 }	t_env;
 
 typedef struct s_img
@@ -347,6 +349,7 @@ void		put_buffer_to_mlx(t_win *win, int render_amount);
 void		put_pixel(t_env *env, t_vec3 color, int i);
 void		put_pixel_in_render(t_env *env);
 void		exit_mlx(t_env *env);
+void		reset_img_buf(t_env *env);
 
 // free_utils.c
 void		free_backup_obj(t_env *env);

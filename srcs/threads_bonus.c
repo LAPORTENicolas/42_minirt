@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:36:34 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/04 21:15:50 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 23:30:13 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ void	join_threads(t_env *env)
 		pthread_join(env->threads[i++].th_ray, NULL);
 	pthread_mutex_destroy(&env->reset_mutex);
 	pthread_mutex_destroy(&env->done_mutex);
+	pthread_mutex_destroy(&env->stop_mutex);
 	pthread_cond_destroy(&env->reset_cond);
 	pthread_cond_destroy(&env->done_cond);
 }
@@ -31,22 +32,27 @@ void	join_threads(t_env *env)
 void	*thread_routine(void *arg)
 {
 	t_task	*task;
-	t_env	*env;
 
 	task = (t_task *)arg;
-	env = task->env;
 	while (1)
 	{
-		pthread_mutex_lock(&env->reset_mutex);
-		while (env->reset == 0)
-			pthread_cond_wait(&env->reset_cond, &env->reset_mutex);
-		pthread_mutex_unlock(&env->reset_mutex);
+		pthread_mutex_lock(&task->env->stop_mutex);
+		if (task->env->stop_render)
+		{
+			pthread_mutex_unlock(&task->env->stop_mutex);
+			return (NULL);
+		}
+		pthread_mutex_unlock(&task->env->stop_mutex);
+		pthread_mutex_lock(&task->env->reset_mutex);
+		while (task->env->reset == 0)
+			pthread_cond_wait(&task->env->reset_cond, &task->env->reset_mutex);
+		pthread_mutex_unlock(&task->env->reset_mutex);
 		execute_thread(task);
-		pthread_mutex_lock(&env->done_mutex);
-		env->threads_done++;
-		if (env->threads_done == env->nb_threads)
-			pthread_cond_signal(&env->done_cond);
-		pthread_mutex_unlock(&env->done_mutex);
+		pthread_mutex_lock(&task->env->done_mutex);
+		task->env->threads_done++;
+		if (task->env->threads_done == task->env->nb_threads)
+			pthread_cond_signal(&task->env->done_cond);
+		pthread_mutex_unlock(&task->env->done_mutex);
 	}
 	return (NULL);
 }

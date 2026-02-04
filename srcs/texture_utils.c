@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/19 12:04:31 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/21 16:13:11 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 22:44:13 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	free_texture(void *p)
 		free(tmp->image);
 		free(tmp);
 	}
+	pthread_mutex_destroy(&texture->text_mutex);
 	free(texture->name);
 	free(texture);
 }
