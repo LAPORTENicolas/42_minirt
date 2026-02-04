@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:36:34 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/04 20:45:50 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 21:15:50 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 #include <math.h>
 #include <limits.h>
 #include <stdio.h>
-
 
 void	join_threads(t_env *env)
 {
@@ -46,7 +45,7 @@ void	*thread_routine(void *arg)
 		pthread_mutex_lock(&env->done_mutex);
 		env->threads_done++;
 		if (env->threads_done == env->nb_threads)
-    		pthread_cond_signal(&env->done_cond);
+			pthread_cond_signal(&env->done_cond);
 		pthread_mutex_unlock(&env->done_mutex);
 	}
 	return (NULL);
@@ -66,7 +65,8 @@ int	create_threads(t_task *threads, int nb_threads, int size)
 			threads[i].end = size;
 		else
 			threads[i].end = threads[i].start + chunk;
-		if (pthread_create(&threads[i].th_ray, NULL, thread_routine, &threads[i]) != 0)
+		if (pthread_create(&threads[i].th_ray, NULL, thread_routine, \
+			&threads[i]) != 0)
 		{
 			printf("Failed to create thread");
 			while (--i >= 0)
@@ -77,4 +77,3 @@ int	create_threads(t_task *threads, int nb_threads, int size)
 	}
 	return (0);
 }
-

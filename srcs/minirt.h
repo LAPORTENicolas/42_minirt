@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 20:45:27 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 21:30:13 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,21 +197,21 @@ typedef struct s_amb_light
 
 typedef struct s_texture
 {
-	void	*mlx;
-	void	*img;
-	char	*buf;
-	void	*img_n;
-	char	*buf_n;
-	char	*name;
-	float	rougness;
-	float	reflection;
-	int		bpp;
-	int		lb;
-	int		endian;
-	int		scale;
-	int		w;
-	int		h;
 	pthread_mutex_t	text_mutex;
+	void				*mlx;
+	void				*img;
+	char				*buf;
+	void				*img_n;
+	char				*buf_n;
+	char				*name;
+	float				rougness;
+	float				reflection;
+	int					bpp;
+	int					lb;
+	int					endian;
+	int					scale;
+	int					w;
+	int					h;
 }	t_texture;
 
 typedef struct s_ray_d
@@ -281,12 +281,12 @@ typedef struct s_cam
 typedef struct s_task
 {
 	struct s_env	*env;
-	pthread_t 		th_ray;
+	pthread_t		th_ray;
 	int				start;
 	int				end;
 	int				*count;
 	int				state;
-} t_task;
+}	t_task;
 
 typedef struct s_env
 {

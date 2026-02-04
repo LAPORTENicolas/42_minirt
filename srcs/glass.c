@@ -6,7 +6,7 @@
 /*   By: nlaporte <nlaporte@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/28 06:31:50 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/01/28 07:43:45 by nlaporte         ###   ########.fr       */
+/*   Updated: 2026/02/04 21:29:23 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ void	render_glass(t_env *env, t_ray_d *l_ray)
 		dot = .1;
 	l_ray->color = vec_add(vec_mul(l_ray->color, dot), \
 		vec_mul(ray_reflect.color, 1 - dot));
-	//l_ray->color = ray_reflect.color;
 	l_ray->glass_flag = 0;
 	l_ray->ray.mul = 1.;
 }

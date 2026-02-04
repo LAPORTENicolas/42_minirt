@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:36:18 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 20:45:36 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/04 21:17:59 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,24 +60,22 @@ void	submit_task(t_env *env)
 
 void	execute_thread(t_task *task)
 {
-	int			i;
+	int		i;
 	float	x;
 	float	y;
-	t_env	*env;
 	t_ray	ray;
 	t_vec3	color;
 
-	env = task->env;
 	x = 0;
 	y = 0;
 	i = task->start;
 	while (i < task->end)
 	{
 		ft_bzero(&ray, sizeof(t_ray));
-		coordinate_from_index(env, i, &x, &y);
-		ray = gen_world_ray(env, x, y);
-		color = render_one_pixel(env, ray);
-		put_pixel(env, color, i);
+		coordinate_from_index(task->env, i, &x, &y);
+		ray = gen_world_ray(task->env, x, y);
+		color = render_one_pixel(task->env, ray);
+		put_pixel(task->env, color, i);
 		i++;
 	}
 }
