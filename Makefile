@@ -82,7 +82,7 @@ SRCS_BONUS		:= ./srcs/bmp_convert.c \
 ./srcs/vec_utils1.c \
 ./srcs/vec_utils2.c \
 ./srcs/window_bonus.c \
-./srcs/window_utils.c \
+./srcs/window_utils_bonus.c \
 ./srcs/obj/cone.c \
 ./srcs/obj/cone_checkerboard.c \
 ./srcs/obj/cone_data.c \

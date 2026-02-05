@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   window_utils.c                                     :+:      :+:    :+:   */
+/*   window_utils _bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/08 12:59:50 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/05 10:54:13 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/05 10:56:53 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,11 @@
  */
 void	put_pixel(t_env *env, t_vec3 color, int i)
 {
+	pthread_mutex_lock(&env->win_mutex);
 	env->win.img_buf[i].x = color.x;
 	env->win.img_buf[i].y = color.y;
 	env->win.img_buf[i].z = color.z;
+	pthread_mutex_unlock(&env->win_mutex);
 }
 
 void	put_pixel_in_render2(t_env *env)

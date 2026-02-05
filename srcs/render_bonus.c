@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/11 17:36:18 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 23:26:46 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/05 11:43:02 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,28 +56,6 @@ void	submit_task(t_env *env)
 	pthread_mutex_lock(&env->reset_mutex);
 	env->reset = 0;
 	pthread_mutex_unlock(&env->reset_mutex);
-}
-
-void	execute_thread(t_task *task)
-{
-	int		i;
-	float	x;
-	float	y;
-	t_ray	ray;
-	t_vec3	color;
-
-	x = 0;
-	y = 0;
-	i = task->start;
-	while (i < task->end)
-	{
-		ft_bzero(&ray, sizeof(t_ray));
-		coordinate_from_index(task->env, i, &x, &y);
-		ray = gen_world_ray(task->env, x, y);
-		color = render_one_pixel(task->env, ray);
-		put_pixel(task->env, color, i);
-		i++;
-	}
 }
 
 void	get_litle_resolution(t_env *env)

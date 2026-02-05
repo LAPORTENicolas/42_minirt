@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/04 23:25:47 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/05 11:22:35 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@
 # include <X11/extensions/XShm.h>
 # include <pthread.h>
 
-# define WIDTH 60
-# define HEIGHT 60
+# define WIDTH 600
+# define HEIGHT 600
 # define MAX_THREAD 8
 # define EPS 1e-4
 # define ZOOM_STEP 0.5f
@@ -322,6 +322,7 @@ typedef struct s_env
 	pthread_mutex_t	reset_mutex;
 	pthread_cond_t	reset_cond;
 	pthread_mutex_t	stop_mutex;
+	pthread_mutex_t	win_mutex;
 }	t_env;
 
 typedef struct s_img

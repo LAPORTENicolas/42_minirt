@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:36:34 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/04 23:30:13 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/05 11:43:15 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,31 @@ void	join_threads(t_env *env)
 	pthread_mutex_destroy(&env->reset_mutex);
 	pthread_mutex_destroy(&env->done_mutex);
 	pthread_mutex_destroy(&env->stop_mutex);
+	pthread_mutex_destroy(&env->win_mutex);
 	pthread_cond_destroy(&env->reset_cond);
 	pthread_cond_destroy(&env->done_cond);
 }
+void	execute_thread(t_task *task)
+{
+	int		i;
+	float	x;
+	float	y;
+	t_ray	ray;
+	t_vec3	color;
 
+	x = 0;
+	y = 0;
+	i = task->start;
+	while (i < task->end)
+	{
+		ft_bzero(&ray, sizeof(t_ray));
+		coordinate_from_index(task->env, i, &x, &y);
+		ray = gen_world_ray(task->env, x, y);
+		color = render_one_pixel(task->env, ray);
+		put_pixel(task->env, color, i);
+		i++;
+	}
+}
 void	*thread_routine(void *arg)
 {
 	t_task	*task;

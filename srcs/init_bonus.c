@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:28:39 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/04 22:39:56 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/05 10:51:10 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	init_mutexes(t_env *env)
 	pthread_mutex_init(&env->reset_mutex, NULL);
 	pthread_mutex_init(&env->done_mutex, NULL);
 	pthread_mutex_init(&env->stop_mutex, NULL);
+	pthread_mutex_init(&env->win_mutex, NULL);
 	pthread_cond_init(&env->reset_cond, NULL);
 	pthread_cond_init(&env->done_cond, NULL);
 }
