@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:36:34 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/05 11:43:15 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/06 08:25:16 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	join_threads(t_env *env)
 	pthread_cond_destroy(&env->reset_cond);
 	pthread_cond_destroy(&env->done_cond);
 }
+
 void	execute_thread(t_task *task)
 {
 	int		i;
@@ -50,6 +51,7 @@ void	execute_thread(t_task *task)
 		i++;
 	}
 }
+
 void	*thread_routine(void *arg)
 {
 	t_task	*task;

@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/05 15:30:25 by jodde             #+#    #+#             */
-/*   Updated: 2026/02/05 11:18:18 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/06 08:26:18 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	manage_cyl_texture(t_ray_d *r, t_cylinder *cy)
 	if (cy->pal_flag)
 		cy->color = vec_mul(cy->pal(uv.x * 32 + uv.y * 16), 255);
 	if (!cy->texture)
-	 	return ;
+		return ;
 	pthread_mutex_lock(&cy->texture->text_mutex);
 	r->reflection = cy->texture->reflection;
 	r->roughness = cy->texture->rougness;

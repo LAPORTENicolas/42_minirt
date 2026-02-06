@@ -6,7 +6,7 @@
 /*   By: jodde <jodde@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/12/08 18:01:01 by nlaporte          #+#    #+#             */
-/*   Updated: 2026/02/05 11:22:35 by jodde            ###   ########.fr       */
+/*   Updated: 2026/02/06 08:51:49 by jodde            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 # define WIDTH 600
 # define HEIGHT 600
-# define MAX_THREAD 8
+# define MAX_THREAD 4
 # define EPS 1e-4
 # define ZOOM_STEP 0.5f
 # define ZOOM_STEP 0.5f
